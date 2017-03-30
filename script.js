@@ -1,18 +1,28 @@
 var words = ['tiger', 'horse', 'wolf', 'squirrel', 'giraffe'];
-var randomWord =  words[Math.floor(Math.random()*(words.length - 1))];
 
-var str = '';
-var count = 0;
-var answerArray = [];
-
-
-function blanksFromAnswer() {
-    
-    for (var i=0; i<randomWord.length; i++) {
-      answerArray[i]='_';
-    }
-    str = answerArray.join(' ');
-    return str + " " + answerArray;
+function chooseWord() {
+    return words[Math.floor(Math.random() * (words.length))];
 }
 
-blanksFromAnswer(randomWord);
+function blanksFromAnswer ( answerWord ) {  
+    var result = ""; 
+    for ( var i in answerWord ) {
+        result += "_";
+    }
+    return result;
+}
+
+function alterAt ( n, c, originalString ) {
+    return originalString.substr(0,n) + c + originalString.substr(n+1,originalString.length);
+}
+
+function guessLetter( letter, shown, answer ) {
+    var checkIndex = 0;
+    
+    checkIndex = answer.indexOf(letter);
+    while ( checkIndex >= 0 ) {
+        shown = alterAt( checkIndex, letter, shown );
+        checkIndex = answer.indexOf(letter, checkIndex + 1);
+    }
+    return shown;
+}
